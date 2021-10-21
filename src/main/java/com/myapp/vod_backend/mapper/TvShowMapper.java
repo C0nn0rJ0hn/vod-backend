@@ -4,6 +4,9 @@ import com.myapp.vod_backend.domain.TvShow;
 import com.myapp.vod_backend.tmdb.domain.tvshow.dto.TvShowDto;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class TvShowMapper {
 
@@ -15,7 +18,7 @@ public class TvShowMapper {
                 tvShowDto.getFirstAirDate(),
                 tvShowDto.getVoteAverage().doubleValue(),
                 tvShowDto.getVoteCount(),
-                tvShowDto.getGenresId()
+                tvShowDto.getOverview()
         );
     }
 
@@ -27,8 +30,12 @@ public class TvShowMapper {
                 tvShow.getFirstAirDate(),
                 tvShow.getVoteAverage(),
                 tvShow.getVoteCount(),
-                tvShow.getGenresId()
+                tvShow.getOverview()
         );
+    }
+
+    public List<TvShowDto> mapToListTvShowDto(List<TvShow> tvShows) {
+        return tvShows.stream().map(this::mapToTvShowDto).collect(Collectors.toList());
     }
 
 }

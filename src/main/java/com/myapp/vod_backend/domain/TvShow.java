@@ -2,13 +2,16 @@ package com.myapp.vod_backend.domain;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -33,11 +36,40 @@ public class TvShow {
     @Column(name = "vote_count")
     private Integer voteCount;
 
-    @ElementCollection
-    @CollectionTable(name = "tv_show_genres_id")
-    private List<Integer> genresId;
+    @Column(name = "overview", columnDefinition = "LONGTEXT")
+    private String overview;
 
-    @ManyToOne
-    @JoinColumn(name = "watchListId")
-    private WatchList watchList;
+    @ManyToMany(
+            targetEntity = WatchList.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "tvShows"
+    )
+    private List<WatchList> ListOfWatchLists = new ArrayList<>();
+
+    @ManyToMany(
+            targetEntity = Buy.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "tvShows"
+    )
+    private List<Buy> buys = new ArrayList<>();
+
+    @OneToMany(
+            targetEntity = RentTvShow.class,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "tvShow"
+    )
+    private List<RentTvShow> rentTvShows = new ArrayList<>();
+
+    public TvShow(Integer id, String name, Double popularity, String firstAirDate, Double voteAverage, Integer voteCount, String overview) {
+        this.id = id;
+        this.name = name;
+        this.popularity = popularity;
+        this.firstAirDate = firstAirDate;
+        this.voteAverage = voteAverage;
+        this.voteCount = voteCount;
+        this.overview = overview;
+    }
 }

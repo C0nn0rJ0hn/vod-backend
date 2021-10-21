@@ -80,4 +80,42 @@ public class TMDBClient {
     }
 
 
+    public List<MovieDto> searchMoviesByQuery(String query, String page) {
+        URI url = UriComponentsBuilder.fromHttpUrl(tmdbConfig.getTmdbApiEndpoint() + "/search/movie")
+                .queryParam("api_key", tmdbConfig.getTmdbApiKey())
+                .queryParam("query", query)
+                .queryParam("page", page)
+                .build()
+                .encode()
+                .toUri();
+
+        try {
+            PopularMoviesDto apiResponse = restTemplate.getForObject(url, PopularMoviesDto.class);
+            return Optional.ofNullable(apiResponse).map(PopularMoviesDto::getResults).orElse(Collections.emptyList());
+        }
+        catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return Collections.emptyList();
+        }
+    }
+
+    public List<TvShowDto> searchTvShowsByQuery(String query, String page) {
+        URI url = UriComponentsBuilder.fromHttpUrl(tmdbConfig.getTmdbApiEndpoint() + "/search/tv")
+                .queryParam("api_key", tmdbConfig.getTmdbApiKey())
+                .queryParam("query", query)
+                .queryParam("page", page)
+                .build()
+                .encode()
+                .toUri();
+
+        try {
+            PopularTvShowsDto apiResponse = restTemplate.getForObject(url, PopularTvShowsDto.class);
+            return Optional.ofNullable(apiResponse).map(PopularTvShowsDto::getResults).orElse(Collections.emptyList());
+        }
+        catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return Collections.emptyList();
+        }
+    }
+
 }

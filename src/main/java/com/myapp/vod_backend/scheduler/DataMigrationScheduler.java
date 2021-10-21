@@ -21,7 +21,7 @@ public class DataMigrationScheduler {
     private final TvShowMapper tvShowMapper;
     private final TvShowService tvShowService;
 
-    @Scheduled(cron = "0 2 21 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void updateMovieDb() {
         tmdbClient.getPopularMovies("1");
         for (int i = 1; i <= tmdbClient.getMoviesTotalPages(); i++) {
@@ -32,11 +32,10 @@ public class DataMigrationScheduler {
                 }
             }
         }
+        updateTvShowDb();
     }
 
-    //minimum 15 minutes later
-    @Scheduled(cron = "0 20 21 * * *")
-    public void updateTvShowDb() {
+    private void updateTvShowDb() {
         tmdbClient.getPopularTvShows("1");
         for (int i = 1; i <= tmdbClient.getTvShowsTotalPages(); i++) {
             tmdbClient.getPopularTvShows("" + i);

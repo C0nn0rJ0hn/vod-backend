@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,24 +19,21 @@ public class WatchList {
     @Column(name = "id", unique = true)
     private Integer id;
 
-    @Column(name = "media_type", columnDefinition = "enum('MOVIE', 'TVSHOW')")
-    @Enumerated(EnumType.STRING)
-    private MediaType mediaType;
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @Column(name = "account_id")
-    private Account account;
-
-    @OneToMany(
-            targetEntity = Movie.class,
-            mappedBy = "watchList",
-            fetch = FetchType.LAZY)
-    private List<Movie> movies;
-
-    @OneToMany(
-            targetEntity = TvShow.class,
-            mappedBy = "watchList",
-            fetch = FetchType.LAZY
+    @ManyToMany
+    @JoinTable(
+            name = "MOVIES_IN_WATCHLISTS",
+            joinColumns = {@JoinColumn(name = "watch_list_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "movie_id", referencedColumnName = "id")}
     )
-    private List<TvShow> tvShows;
+    private List<Movie> movies = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "TV_SHOWS_IN_WATCHLISTS",
+            joinColumns = {@JoinColumn(name = "watch_list_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "tv_show_id", referencedColumnName = "id")}
+    )
+    private List<TvShow> tvShows = new ArrayList<>();
+
+
 }

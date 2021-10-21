@@ -13,14 +13,8 @@ public class TMDBConfig {
     @Value("${tmdb.api.key}")
     private String tmdbApiKey;
 
-    @Value("${tmdb.api.username}")
-    private String tmdbUsername;
-
-    @Value("${tmdb.api.password}")
-    private String tmdbPassword;
-
     @Value("${tmdb.api.accountId}")
-    private Integer accountId;
+    private String adminAccountId;
 
     @Value("${tmdb.api.sessionId}")
     private String sessionId;

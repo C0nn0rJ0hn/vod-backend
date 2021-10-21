@@ -4,6 +4,9 @@ import com.myapp.vod_backend.domain.Movie;
 import com.myapp.vod_backend.tmdb.domain.movie.dto.MovieDto;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class MovieMapper {
 
@@ -15,7 +18,7 @@ public class MovieMapper {
                 movieDto.getPopularity().doubleValue(),
                 movieDto.getVoteCount(),
                 movieDto.getVoteAverage().doubleValue(),
-                movieDto.getGenresId()
+                movieDto.getOverview()
         );
     }
 
@@ -27,7 +30,11 @@ public class MovieMapper {
                 movie.getPopularity(),
                 movie.getVoteCount(),
                 movie.getVoteAverage(),
-                movie.getGenresId()
+                movie.getOverview()
         );
+    }
+
+    public List<MovieDto> mapToListMovieDto(List<Movie> movies) {
+        return movies.stream().map(this::mapToMovieDto).collect(Collectors.toList());
     }
 }

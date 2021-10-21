@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -32,27 +31,6 @@ public class MovieDto {
     @JsonProperty("vote_average")
     private Number voteAverage;
 
-    @JsonProperty("genre_ids")
-    private List<Integer> genresId;
-
-   /* @JsonProperty("original_title")
-    private String originalTitle;
-
-    @JsonProperty("adult")
-    private boolean adult;
-
     @JsonProperty("overview")
     private String overview;
-
-    @JsonProperty("original_language")
-    private String originalLanguage;
-
-    @JsonProperty("poster_path")
-    private String posterPath;
-
-    @JsonProperty("backdrop_path")
-    private String backdropPath;
-
-    @JsonProperty("video")
-    private boolean video;*/
 }

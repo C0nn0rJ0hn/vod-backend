@@ -5,6 +5,7 @@ import com.myapp.vod_backend.repository.TvShowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,4 +30,30 @@ public class TvShowService {
     public void deleteTvShowById(final Integer tvShowId) {
         repository.deleteById(tvShowId);
     }
+
+    public List<TvShow> getTvShowsWithAverageAbove(Double voteAverage) {
+        List<TvShow> result = new ArrayList<>();
+        List<TvShow> tvShows = repository.findAll();
+
+        for (TvShow tvShow : tvShows) {
+            if (tvShow.getVoteAverage() >= voteAverage) {
+                result.add(tvShow);
+            }
+        }
+        return result;
+    }
+
+    public List<TvShow> getTvShowsByKeyword(String keyword) {
+        List<TvShow> shows = new ArrayList<>();
+        List<TvShow> tvShows = repository.findAll();
+
+        for (TvShow tvShow : tvShows) {
+            if (tvShow.getName().toLowerCase().contains(keyword.toLowerCase())) {
+                shows.add(tvShow);
+            }
+        }
+        return shows;
+    }
+
+
 }

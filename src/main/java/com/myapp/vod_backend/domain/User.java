@@ -1,13 +1,13 @@
 package com.myapp.vod_backend.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -26,12 +26,17 @@ public class User {
     @Column(name = "lastname")
     private String lastname;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "birth_date")
+    private String birthDate;
 
     @Column(name = "gender", columnDefinition = "enum('MALE', 'FEMALE')")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-
+    public User(String name, String lastname, String birthDate, Gender gender) {
+        this.name = name;
+        this.lastname = lastname;
+        this.birthDate = birthDate;
+        this.gender = gender;
+    }
 }

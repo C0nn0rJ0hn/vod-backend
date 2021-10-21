@@ -1,13 +1,15 @@
 package com.myapp.vod_backend.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -32,19 +34,41 @@ public class Movie {
     @Column(name = "vote_average")
     private Double voteAverage;
 
-    @ElementCollection
-    @CollectionTable(name = "movies_genres_id")
-    private List<Integer> genresId;
-
-    @ManyToOne
-    @JoinColumn(name = "watchListId")
-    private WatchList watchList;
-
-   /* private String originalTitle;
-    private boolean adult;
+    @Column(name = "overview", columnDefinition = "LONGTEXT")
     private String overview;
-    private String originalLanguage;
-    private String posterPath;
-    private String backdropPath;
-    private boolean video;*/
+
+    @ManyToMany(
+            targetEntity = WatchList.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "movies"
+    )
+    private List<WatchList> listOfWatchLists = new ArrayList<>();
+
+    @ManyToMany(
+            targetEntity = Buy.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "movies"
+    )
+    private List<Buy> buys = new ArrayList<>();
+
+    @OneToMany(
+            targetEntity = RentMovie.class,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "movie"
+    )
+    private List<RentMovie> rentMovies = new ArrayList<>();
+
+
+    public Movie(String title, Integer id, String releaseDate, Double popularity, Integer voteCount, Double voteAverage, String overview) {
+        this.title = title;
+        this.id = id;
+        this.releaseDate = releaseDate;
+        this.popularity = popularity;
+        this.voteCount = voteCount;
+        this.voteAverage = voteAverage;
+        this.overview = overview;
+    }
 }

@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -31,6 +30,6 @@ public class TvShowDto {
     @JsonProperty("vote_count")
     private Integer voteCount;
 
-    @JsonProperty("genre_ids")
-    private List<Integer> genresId;
+    @JsonProperty("overview")
+    private String overview;
 }
