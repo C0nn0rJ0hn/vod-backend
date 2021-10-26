@@ -23,7 +23,6 @@ To run this application:
   - Side note: if You want to fill database with data, then go to DataMigrationScheduler and change @Scheduled annotation. Currently database is updated daily on midnight.
 4. Second, run FrontEnd by starting VodApplication.java (src).
 5. You can then access the frontend website on http://localhost:8081/.
-
-  
+ 
 ## UNIT TESTS:
 Current line coverage of the project is 81%, with class coverage reaching 87%. 
