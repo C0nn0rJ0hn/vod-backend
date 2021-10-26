@@ -69,9 +69,9 @@ public class WatchListService {
 
     public void deleteMovieFromWatchList(final Integer movieId, final Integer watchListId) throws WatchListNotFoundException{
         WatchList watchList = watchListRepository.findById(watchListId).orElseThrow(() -> new WatchListNotFoundException("Watchlist not found in database"));
-        for (int i = 0; i < watchList.getMovies().size(); i++) {
-            if (watchList.getMovies().get(i).getId().equals(movieId)) {
-                watchList.getMovies().remove(watchList.getMovies().get(i));
+        for (Movie movie : watchList.getMovies()) {
+            if (movie.getId().equals(movieId)) {
+                watchList.getMovies().remove(movie);
             }
             else {
                 throw new MovieNotFoundException("Movie not found in current watchlist");

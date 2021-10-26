@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,17 +66,6 @@ public class AccountService {
         accountRepository.deleteById(accountId);
     }
 
-    public String generateFirstRandomPassword() {
-        final String code = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*";
-        Random rnd = new Random();
-
-        StringBuilder sb = new StringBuilder(10);
-        for (int i = 0; i < 10; i++) {
-            sb.append(code.charAt(rnd.nextInt(code.length())));
-        }
-        return sb.toString();
-    }
-
     public Optional<Account> getAccountByEmailAndPassword(final String email, final String password) {
         Account account = new Account();
         for (int i = 0; i < accountRepository.findAll().size(); i++) {
@@ -93,14 +81,15 @@ public class AccountService {
         if (accountRepository.findAll().size() == 0 || accountRepository.findAll().isEmpty()) {
             isAuthenticated = false;
         }
-        for (int i = 0; i < accountRepository.findAll().size(); i++) {
-            if (!accountRepository.findAll().get(i).getEmail().equals(email) || !accountRepository.findAll().get(i).getPassword().equals(password)) {
-                isAuthenticated = false;
-            }
-            if (accountRepository.findAll().get(i).getEmail().equals(email) && accountRepository.findAll().get(i).getPassword().equals(password)) {
-                Account account = accountRepository.findAll().get(i);
-                account.setLoggedIn(true);
-                isAuthenticated = true;
+        for (Account account : accountRepository.findAll()) {
+            if (account.getEmail().equals(email)) {
+                if (account.getPassword().equals(password)) {
+                    account.setLoggedIn(true);
+                    isAuthenticated = true;
+                }
+                else {
+                    isAuthenticated = false;
+                }
             }
         }
         return isAuthenticated;

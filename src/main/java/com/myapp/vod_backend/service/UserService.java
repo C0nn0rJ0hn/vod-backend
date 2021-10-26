@@ -53,13 +53,4 @@ public class UserService {
     public Optional<User> getUserByAccountId(final Integer accountId) {
         return accountRepository.findById(accountId).map(Account::getUser);
     }
-
-    public Account createUserWithAccount(final User user, String country, String language) {
-        User savedUser = userRepository.save(user);
-        Account account = new Account(savedUser);
-        account.setCountry(country);
-        account.setLanguage(language);
-        account.setPassword(accountService.generateFirstRandomPassword());
-        return accountService.create(account);
-    }
 }

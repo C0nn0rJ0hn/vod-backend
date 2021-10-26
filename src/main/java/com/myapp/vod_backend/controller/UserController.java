@@ -1,11 +1,8 @@
 package com.myapp.vod_backend.controller;
 
-import com.myapp.vod_backend.domain.dto.AccountDto;
 import com.myapp.vod_backend.domain.dto.UserDto;
 import com.myapp.vod_backend.exception.UserNotFoundException;
-import com.myapp.vod_backend.mapper.AccountMapper;
 import com.myapp.vod_backend.mapper.UserMapper;
-import com.myapp.vod_backend.service.AccountService;
 import com.myapp.vod_backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,8 +21,6 @@ public class UserController {
     @Autowired
     private UserMapper mapper;
 
-    @Autowired
-    private AccountMapper accountMapper;
 
     @GetMapping(value = "/users")
     public List<UserDto> getUsers() {
@@ -70,10 +65,5 @@ public class UserController {
     @GetMapping(value = "/users/account/{accountId}")
     public UserDto getUserByAccountId(@PathVariable Integer accountId) throws UserNotFoundException{
         return mapper.mapToUserDto(service.getUserByAccountId(accountId).orElseThrow(() -> new UserNotFoundException("Invalid accountId. User not found")));
-    }
-
-    @PostMapping(value = "/users/withAccount", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public AccountDto createUserWithAccount(@RequestBody UserDto userDto, @RequestParam String country, @RequestParam String language) {
-        return accountMapper.mapToAccountDto(service.createUserWithAccount(mapper.mapToUser(userDto), country, language));
     }
 }

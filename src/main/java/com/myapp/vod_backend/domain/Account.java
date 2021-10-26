@@ -90,4 +90,15 @@ public class Account {
         this.role = role;
         this.user = user;
     }
+
+    public Account(Integer id, String password, String email, String country, String language, Role role, boolean loggedIn, User user) {
+        this.id = id;
+        this.password = password;
+        this.email = email;
+        this.country = country;
+        this.language = language;
+        this.role = role;
+        this.loggedIn = loggedIn;
+        this.user = user;
+    }
 }
